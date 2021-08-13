@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace SinglyLinkedList
 {
@@ -229,6 +230,27 @@ namespace SinglyLinkedList
             _first = null;
             Count = 0;
 
+        }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+
+            SinglyLinkedListNode<T> temp = null;
+
+            if (_first != null)
+            {
+                result.Append('[').Append(_first.Value);
+                temp = _first.Next;
+            }
+
+            while (temp != null)
+            {
+                result.Append(", ").Append(temp.Value);
+                temp = temp.Next;
+            }
+
+            return result + "]";
         }
 
         // Private Helper Methods

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace DoublyLinkedList
 {
@@ -8,9 +9,9 @@ namespace DoublyLinkedList
         private DoublyLinkedListNode<T> _last;
         public int Count { get; private set; }
 
-        public void AddFirst(T item)
+        public void AddFirst(T value)
         {
-            var node = new DoublyLinkedListNode<T>(item);
+            var node = new DoublyLinkedListNode<T>(value);
 
             if (IsEmpty())
                 _first = _last = node;
@@ -24,9 +25,9 @@ namespace DoublyLinkedList
             Count++;
         }
 
-        public void AddLast(T item)
+        public void AddLast(T value)
         {
-            var node = new DoublyLinkedListNode<T>(item);
+            var node = new DoublyLinkedListNode<T>(value);
 
             if (IsEmpty())
                 _first = _last = node;
@@ -40,12 +41,12 @@ namespace DoublyLinkedList
             Count++;
         }
 
-        public void Add(T item, int position)
+        public void Add(T value, int position)
         {
             if (position < 0 || position > Count)
                 throw new IndexOutOfRangeException();
 
-            var node = new DoublyLinkedListNode<T>(item);
+            var node = new DoublyLinkedListNode<T>(value);
 
             if (IsEmpty())
             {
@@ -56,13 +57,13 @@ namespace DoublyLinkedList
 
             if (position == 0)
             {
-                AddFirst(item);
+                AddFirst(value);
                 return;
             }
 
             if (position == Count)
             {
-                AddLast(item);
+                AddLast(value);
                 return;
             }
 
@@ -139,13 +140,13 @@ namespace DoublyLinkedList
             Count--;
         }
 
-        public int IndexOf(T item)
+        public int IndexOf(T value)
         {
             var current = _first;
             int position = 0;
             while (current != null)
             {
-                if (current.Data.Equals(item))
+                if (current.Value.Equals(value))
                     return position;
 
                 current = current.Next;
@@ -160,7 +161,7 @@ namespace DoublyLinkedList
             if (position < 0 || position >= Count)
                 throw new IndexOutOfRangeException();
 
-            return FindNode(position).Data;
+            return FindNode(position).Value;
         }
 
         public T FindLast(int position)
@@ -168,7 +169,7 @@ namespace DoublyLinkedList
             if (position < 0 || position >= Count)
                 throw new IndexOutOfRangeException();
 
-            return FindNode(Count - position - 1).Data;
+            return FindNode(Count - position - 1).Value;
         }
 
         public void Set(int position, T data)
@@ -177,7 +178,7 @@ namespace DoublyLinkedList
                 throw new IndexOutOfRangeException();
 
             var item = FindNode(position);
-            item.Data = data;
+            item.Value = data;
         }
 
         public void Reverse()
@@ -210,7 +211,7 @@ namespace DoublyLinkedList
             int position = 0;
             while (current != null)
             {
-                clonedLinkedList.Add(current.Data, position);
+                clonedLinkedList.Add(current.Value, position);
                 current = current.Next;
                 position++;
             }
@@ -225,7 +226,7 @@ namespace DoublyLinkedList
             Count = 0;
         }
 
-        public bool Contains(T item) => IndexOf(item) != -1;
+        public bool Contains(T value) => IndexOf(value) != -1;
 
         public void Print()
         {
@@ -250,11 +251,31 @@ namespace DoublyLinkedList
             var current = list._first;
             while (current != null)
             {
-                mergedList.AddLast(current.Data);
+                mergedList.AddLast(current.Value);
                 current = current.Next;
             }
 
             return mergedList;
+        }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            DoublyLinkedListNode<T> temp = null;
+
+            if (_first != null)
+            {
+                result.Append("[").Append(_first.Value);
+                temp = _first.Next;
+            }
+
+            while (temp != null)
+            {
+                result.Append(", ").Append(temp.Value);
+                temp = temp.Next;
+            }
+
+            return result + "]";
         }
 
         // Private Helper Methods
@@ -291,7 +312,7 @@ namespace DoublyLinkedList
                 return;
 
             Print(last.Previous);
-            Console.Write(last.Data + ", ");
+            Console.Write(last.Value + ", ");
         }
     }
 }
