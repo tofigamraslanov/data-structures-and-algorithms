@@ -5,20 +5,19 @@ namespace FixedSizeStack
     public class FixedSizeStack<T>
     {
         private readonly T[] _items;
-        private int _count;
         private const int DefaultCapacity = 4;
 
-        public int Count => _count;
+        public int Count { get; private set; }
 
         public FixedSizeStack() => _items = new T[DefaultCapacity];
         public FixedSizeStack(int capacity) => _items = new T[capacity];
 
         public void Push(T item)
         {
-            if (_count == _items.Length)
+            if (Count == _items.Length)
                 throw new StackOverflowException();
 
-            _items[_count++] = item;
+            _items[Count++] = item;
         }
 
         public T Pop()
@@ -26,7 +25,7 @@ namespace FixedSizeStack
             if (IsEmpty())
                 throw new InvalidOperationException();
 
-            return _items[--_count];
+            return _items[--Count];
         }
 
         public T Peek()
@@ -34,30 +33,28 @@ namespace FixedSizeStack
             if (IsEmpty())
                 throw new InvalidOperationException();
 
-            return _items[_count - 1];
+            return _items[Count - 1];
         }
 
-        public bool IsEmpty() => _count == 0;
+        public bool IsEmpty() => Count == 0;
+
+        public bool IsFull() => Count == _items.Length;
 
         public bool Contains(T item)
         {
-            for (int i = 0; i < _count; i++)
-            {
+            for (var i = 0; i < Count; i++)
                 if (_items[i].Equals(item))
                     return true;
-            }
 
             return false;
         }
 
         public void Clear()
         {
-            if (!IsEmpty())
-            {
-                int count = _count;
-                for (int i = 0; i < count; i++)
-                    Pop();
-            }
+            if (IsEmpty()) return;
+            var count = Count;
+            for (var i = 0; i < count; i++)
+                Pop();
         }
 
         public T[] ToArray()
@@ -65,8 +62,8 @@ namespace FixedSizeStack
             if (IsEmpty())
                 throw new InvalidOperationException();
 
-            T[] array = new T[_count];
-            for (int i = 0; i < _count; i++)
+            var array = new T[Count];
+            for (var i = 0; i < Count; i++)
                 array[i] = _items[i];
 
             return array;

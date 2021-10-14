@@ -5,7 +5,18 @@ namespace LinkedStack
 {
     public class LinkedStack<T>
     {
-        private Element _top;
+        private class Node
+        {
+            public T Data;
+            public Node Next;
+
+            public Node(T data)
+            {
+                Data = data;
+            }
+        }
+
+        private Node _top;
         private int _count;
 
         public LinkedStack()
@@ -30,11 +41,11 @@ namespace LinkedStack
         public void Push(T item)
         {
             if (_top == null)
-                _top = new Element(item);
+                _top = new Node(item);
 
             else
             {
-                var data = new Element(item);
+                var data = new Node(item);
                 var temp = _top;
 
                 while (temp.Next != null)
@@ -90,17 +101,6 @@ namespace LinkedStack
             }
 
             return stack + "]";
-        }
-
-        private class Element
-        {
-            public T Data;
-            public Element Next;
-
-            public Element(T data)
-            {
-                this.Data = data;
-            }
         }
     }
 }
