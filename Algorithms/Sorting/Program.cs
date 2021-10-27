@@ -6,7 +6,16 @@ namespace Sorting
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            int[] items = { 12, 5, 2, 82 };
+
+            //BubbleSort<int>.BubbleSortAlgorithm(items);
+            //SelectionSort<int>.SelectionSortAlgorithm(items);
+            InsertionSort<int>.InsertionSortAlgorithm(items);
+
+            foreach (var item in items)
+                Console.Write(item + " ");
+
+            Console.ReadLine();
         }
     }
 }
